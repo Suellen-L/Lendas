@@ -6,18 +6,30 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/StackNavigator';
 
-const legends: Legend[] = [
-  {
-    id: '1',
-    name: 'A Lenda da Floresta Encantada',
-    description: 'Há muito tempo, uma floresta mágica escondia segredos dos elfos...',
-  },
-  {
-    id: '2',
-    name: 'O Cristal dos Anciões',
-    description: 'Um cristal poderoso guardado por elfos sábios em montanhas distantes...',
-  },
-];
+type Legend = {
+  id: string;
+  name: string;
+  description: string;
+};
+
+export default function LendasList() {
+  const [legends, setLegends] = useState<Legend[]>([]);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+
+  const handleAddLegend = () => {
+    if (name.trim() && description.trim()) {
+      const newLegend: Legend = {
+        id: Date.now().toString(),
+        name,
+        description,
+      };
+      setLegends(prev => [...prev, newLegend]);
+      setName('');
+      setDescription('');
+    }
+  };
+
 
 export default function LegendsListScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
